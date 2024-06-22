@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+Signup - Pickle Master
+{% endblock %}
+
+{% block body %}
+<style>
+    .signup-container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #007345;
+        border-radius: 10px;
+        background-color: white;
+        color: #007345;
+    }
+    .form-control:focus {
+        border-color: #007345;
+        box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25);
+    }
+</style>
+<div class="container">
+    <div class="signup-container">
+        <h2 class="text-center">Sign Up</h2>
+        <form method="post" enctype="multipart/form-data">
+            {{ signup_form.hidden_tag() }}
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                {{ signup_form.username(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                {{ signup_form.email(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                {{ signup_form.password1(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Repeat Password</label>
+                {{ signup_form.password2(class="form-control") }}
+                {% if signup_form.password2.errors %}
+                <div class="text-danger">
+                    {% for error in signup_form.password2.errors %}
+                    <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            {{ signup_form.submit(class="btn btn-success w-100") }}
+        </form>
+    </div>
+</div>
+{% endblock %}

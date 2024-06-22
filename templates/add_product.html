@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add Product - Pickle Master
+{% endblock %}
+
+{% block body %}
+<style>
+    .addProduct-container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #007345;
+        border-radius: 10px;
+        background-color: white;
+        color: #007345;
+    }
+    .form-control:focus {
+        border-color: #007345;
+        box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25);
+    }
+</style>
+<div class="container">
+    <div class="addProduct-container">
+        <h2 class="text-center">Add product</h2>
+        <form method="post" enctype="multipart/form-data">
+            {{ add_product_form.hidden_tag() }}
+            <div class="mb-3">
+                <label class="form-label">Product name</label>
+               {{ add_product_form.name(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Product price</label>
+                {{ add_product_form.price(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Product </label>
+                {{ add_product_form.image.label.text }}: {{ add_product_form.image(accept=".jpg,.png") }}
+            </div>
+            {{ add_product_form.submit(class="btn btn-success w-100") }}
+        </form>
+    </div>
+</div>
+{% endblock %}

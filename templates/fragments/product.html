@@ -1,0 +1,17 @@
+<div class="col-md-3 mb-3">
+    <div class="card card-custom">
+        <img src="{{ product.image }}" class="card-img-top" alt="Product Image">
+        <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">{{ product.price }}₾</p>
+            <form method="POST" action="/">
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary" name="action" value="addToCart">Add to cart</button>
+                    <button type="submit" class="btn btn-outline-secondary" name="action" value="favorite">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
