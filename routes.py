@@ -1,6 +1,6 @@
 from os import path
 
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, session
 from flask_login import login_user, login_required, current_user, logout_user
 
 from forms.SignupForm import SignupForm
@@ -10,13 +10,11 @@ from ext import app, db
 from models.Product import Product
 from models.User import User
 
-role = "Guest"
-
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
     products = Product.query.all()
-    return render_template("home.html", products=products, role=role)
+    return render_template("home.html", products=products)
 
 
 @app.route('/signup', methods=['GET', 'POST'])
