@@ -47,6 +47,13 @@ Signup - Pickle Master
                     {% endfor %}
                 </div>
                 {% endif %}
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="text-danger">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
             </div>
             {{ signup_form.submit(class="btn btn-success w-100") }}
         </form>
