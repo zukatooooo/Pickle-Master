@@ -14,6 +14,8 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(), nullable=False)
     role = db.Column(db.String(), nullable=False)
 
+    cart = db.relationship('Cart', back_populates='user')
+
     def __init__(self, username, email, password, role):
         self.username = username
         self.email = email

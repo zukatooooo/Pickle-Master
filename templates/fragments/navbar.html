@@ -54,9 +54,9 @@
         <form class="form-inline my-2 my-lg-0 mx-auto" method="post" enctype="multipart/form-data">
             {{ search_form.hidden_tag() }}
             <div class="input-group">
-                {{ search_form.search_bar(class="form-control", type="search", placeholder="Search") }}
+                {{ search_form.searchBar(class="form-control", placeholder="Search") }}
                 <div class="input-group-append">
-                    {{ search_form.search_button(class="btn btn-success", type="submit") }}
+                    {{ search_form.searchButton(class="btn btn-success", type="submit") }}
                 </div>
             </div>
         </form>
@@ -91,7 +91,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/cart">
                     <i class="fas fa-shopping-cart"></i> Cart
                 </a>
             </li>

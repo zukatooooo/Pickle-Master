@@ -4,5 +4,5 @@ from wtforms.fields.simple import SubmitField
 
 
 class SearchForm(FlaskForm):
-    search_bar = StringField('Search bar')
-    search_button = SubmitField('Search')
+    searchBar = StringField('Search bar')
+    searchButton = SubmitField('Search')

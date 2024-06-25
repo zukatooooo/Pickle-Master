@@ -1,13 +1,15 @@
 from os import path
 
-from flask import render_template, redirect, url_for, flash, session
+from flask import render_template, redirect, url_for, flash
 from flask_login import login_user, login_required, current_user, logout_user
 
-from forms.SearchForm import SearchForm
-from forms.SignupForm import SignupForm
+from ext import app, db
 from forms.AddProductForm import AddProductForm
 from forms.LoginForm import LoginForm
-from ext import app, db
+from forms.ProductForm import ProductForm
+from forms.SearchForm import SearchForm
+from forms.SignupForm import SignupForm
+from models.Cart import Cart
 from models.Product import Product
 from models.User import User
 
@@ -15,11 +17,26 @@ from models.User import User
 @app.route("/", methods=['GET', 'POST'])
 def home():
     search_form = SearchForm()
+    product_form = ProductForm()
+
     if search_form.validate_on_submit():
-        products = Product.query.filter(Product.name.ilike(f"%{search_form.search_bar.data}%")).all()
+        search_query = search_form.searchBar.data
+        products = Product.query.filter(Product.name.ilike(f"%{search_query}%")).all()
     else:
         products = Product.query.all()
-    return render_template("home.html", products=products, search_form=search_form)
+
+    if current_user.is_authenticated:
+        if product_form.validate_on_submit():
+            if product_form.addToCart.data:
+                add_to_cart = Cart(user_id=current_user.id, product_id=product_form.productId.data)
+                db.session.add(add_to_cart)
+                db.session.commit()
+                return redirect(url_for('home'))
+            elif product_form.favorite.data:
+                print("favorite")
+                return redirect(url_for('home'))
+
+    return render_template("home.html", products=products, search_form=search_form, product_form=product_form)
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -85,3 +102,14 @@ def add_product():
 
         return redirect(url_for('home'))
     return render_template('add_product.html', add_product_form=add_product_form, search_form=search_form)
+
+
+@app.route('/cart', methods=['GET', 'POST'])
+def cart():
+    search_form = SearchForm()
+    if current_user.is_authenticated:
+        products = db.session.query(Product).join(Cart).filter(Cart.user_id == current_user.id).all()
+        total_price = sum(product.price for product in products)
+        return render_template('cart.html', search_form=search_form, products=products, total_price=total_price)
+    else:
+        return redirect(url_for("login"))

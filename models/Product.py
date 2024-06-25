@@ -8,4 +8,6 @@ class Product(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(), nullable=False)
     price = db.Column(db.Integer(), nullable=False)
-    image = db.Column(db.String(), default="default_photo.jpg")
+    image = db.Column(db.String())
+
+    cart = db.relationship('Cart', back_populates='product')
