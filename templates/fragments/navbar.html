@@ -32,7 +32,7 @@
         flex-grow: 1;
     }
     .custom-navbar .input-group {
-        width: 95%;
+        width: 99%;
     }
 </style>
 
@@ -51,11 +51,12 @@
                 <a class="nav-link" href="#">Contact Us</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0 mx-auto">
+        <form class="form-inline my-2 my-lg-0 mx-auto" method="post" enctype="multipart/form-data">
+            {{ search_form.hidden_tag() }}
             <div class="input-group">
-                <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                {{ search_form.search_bar(class="form-control", type="search", placeholder="Search") }}
                 <div class="input-group-append">
-                    <button class="btn btn-success" type="submit">Search</button>
+                    {{ search_form.search_button(class="btn btn-success", type="submit") }}
                 </div>
             </div>
         </form>
