@@ -3,5 +3,10 @@
         <img src="static/images/{{ product.image }}" alt="Item 1" class="item-image">
         {{ product.name }}
     </div>
-    <span class="badge badge-primary badge-pill">{{ product.price }}₾</span>
+    <form method="post" enctype="multipart/form-data">
+        {{ cart_form.hidden_tag() }}
+        <input type="text" name="productId" value="{{ product.id }}" style="display:none;">
+        <span class="badge badge-success badge-pill" style="margin-right: 20px;">{{ product.price }}₾</span>
+        {{ cart_form.removeFromCart(class="btn btn-danger") }}
+    </form>
 </li>

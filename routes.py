@@ -5,6 +5,7 @@ from flask_login import login_user, login_required, current_user, logout_user
 
 from ext import app, db
 from forms.AddProductForm import AddProductForm
+from forms.CartForm import CartForm
 from forms.LoginForm import LoginForm
 from forms.ProductForm import ProductForm
 from forms.SearchForm import SearchForm
@@ -104,12 +105,25 @@ def add_product():
     return render_template('add_product.html', add_product_form=add_product_form, search_form=search_form)
 
 
+@app.route('/checkout', methods=['GET', 'POST'])
+def checkout():
+    search_form = SearchForm()
+    return render_template('checkout.html', search_form=search_form)
+
+
 @app.route('/cart', methods=['GET', 'POST'])
 def cart():
     search_form = SearchForm()
+    cart_form = CartForm()
     if current_user.is_authenticated:
         products = db.session.query(Product).join(Cart).filter(Cart.user_id == current_user.id).all()
         total_price = sum(product.price for product in products)
-        return render_template('cart.html', search_form=search_form, products=products, total_price=total_price)
+        if cart_form.validate_on_submit():
+            if cart_form.removeFromCart:
+                Cart.query.filter_by(user_id=current_user.id, product_id=cart_form.productId.data).delete()
+                db.session.commit()
+                return redirect(url_for("cart"))
+
+        return render_template('cart.html', search_form=search_form, cart_form=cart_form, products=products, total_price=total_price)
     else:
         return redirect(url_for("login"))

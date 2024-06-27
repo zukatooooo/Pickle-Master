@@ -34,7 +34,7 @@ Cart - Pickle Master
                     {% include "fragments/product_price_list.html" %}
                     {% endfor %}
                     <li class="list-group-item d-flex justify-content-between align-items-center font-weight-bold">
-                        <button class="btn btn-success">Buy Products</button>
+                        <a class="btn btn-success" href="/checkout">Buy Products</a>
                         Total:
                         <span>{{ total_price }}₾</span>
                     </li>
