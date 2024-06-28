@@ -6,6 +6,7 @@ from flask_login import login_user, login_required, current_user, logout_user
 from ext import app, db
 from forms.AddProductForm import AddProductForm
 from forms.CartForm import CartForm
+from forms.CheckoutForm import CheckoutForm
 from forms.LoginForm import LoginForm
 from forms.ProductForm import ProductForm
 from forms.SearchForm import SearchForm
@@ -105,12 +106,6 @@ def add_product():
     return render_template('add_product.html', add_product_form=add_product_form, search_form=search_form)
 
 
-@app.route('/checkout', methods=['GET', 'POST'])
-def checkout():
-    search_form = SearchForm()
-    return render_template('checkout.html', search_form=search_form)
-
-
 @app.route('/cart', methods=['GET', 'POST'])
 def cart():
     search_form = SearchForm()
@@ -127,3 +122,22 @@ def cart():
         return render_template('cart.html', search_form=search_form, cart_form=cart_form, products=products, total_price=total_price)
     else:
         return redirect(url_for("login"))
+
+
+@app.route('/checkout', methods=['GET', 'POST'])
+def checkout():
+    search_form = SearchForm()
+    checkout_form = CheckoutForm()
+    if checkout_form.validate_on_submit():
+        Cart.query.filter_by(user_id=current_user.id).delete()
+        db.session.commit()
+
+        return redirect(url_for('order_confirmation'))
+
+    return render_template('checkout.html', search_form=search_form, checkout_form=checkout_form)
+
+
+@app.route('/orderConfirmation')
+def order_confirmation():
+    search_form = SearchForm()
+    return render_template('order_confirmation.html', search_form=search_form)

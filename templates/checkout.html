@@ -5,5 +5,78 @@ Checkout - Pickle Master
 {% endblock %}
 
 {% block body %}
-<h1>XELLO</h1>
+<style>
+    .checkout-container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #007345;
+        border-radius: 10px;
+        background-color: white;
+        color: #007345;
+    }
+    .form-control:focus {
+        border-color: #007345;
+        box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25);
+    }
+    .checkout-title {
+        text-align: center;
+    }
+</style>
+
+<div class="container">
+    <div class="checkout-container">
+        <h2 class="my-6 checkout-title">Checkout</h2>
+        <form method="POST" action="{{ url_for('checkout') }}">
+            {{ checkout_form.hidden_tag() }}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    {{ checkout_form.firstname.label }}
+                    {{ checkout_form.firstname(class="form-control") }}
+                </div>
+                <div class="form-group col-md-6">
+                    {{ checkout_form.lastname.label }}
+                    {{ checkout_form.lastname(class="form-control") }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ checkout_form.email.label }}
+                {{ checkout_form.email(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ checkout_form.address.label }}
+                {{ checkout_form.address(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ checkout_form.city.label }}
+                {{ checkout_form.city(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ checkout_form.zipCode.label }}
+                {{ checkout_form.zipCode(class="form-control") }}
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    {{ checkout_form.cardName.label }}
+                    {{ checkout_form.cardName(class="form-control") }}
+                </div>
+                <div class="form-group col-md-6">
+                    {{ checkout_form.cardNumber.label }}
+                    {{ checkout_form.cardNumber(class="form-control") }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    {{ checkout_form.expiration.label }}
+                    {{ checkout_form.expiration(class="form-control") }}
+                </div>
+                <div class="form-group col-md-4">
+                    {{ checkout_form.cvv.label }}
+                    {{ checkout_form.cvv(class="form-control") }}
+                </div>
+            </div>
+            {{ checkout_form.submit(class="btn btn-success btn-block") }}
+        </form>
+    </div>
+</div>
 {% endblock %}

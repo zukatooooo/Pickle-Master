@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+Order Confirmation - Pickle Master
+{% endblock %}
+
+{% block body %}
+<style>
+    .confirmation-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: white;
+        color: #007345;
+        text-align: center;
+    }
+    .btn-continue {
+        margin-top: 20px;
+    }
+</style>
+<div class="container">
+    <div class="confirmation-container">
+        <h2 class="my-4">Thank You for Your Order!</h2>
+        <p>Your order has been placed successfully.</p>
+        <a href="/" class="btn btn-success btn-continue btn-block">Continue Shopping</a>
+    </div>
+</div>
+{% endblock %}
