@@ -5,15 +5,15 @@
             <h5 class="card-title">{{ product.name }}</h5>
             <p class="card-text">{{ product.price }}₾</p>
             <form method="post" enctype="multipart/form-data">
-                {{ product_form.hidden_tag() }}
+                {{ favorite_form.hidden_tag() }}
                 <input type="text" name="productId" value="{{ product.id }}" style="display:none;">
                 <div class="d-flex justify-content-between">
                     {% if current_user.is_authenticated %}
-                        {{ product_form.addToCart(class="btn btn-success") }}
-                        {{ product_form.favorite(class="btn btn-outline-secondary") }}
+                        {{ favorite_form.addToCart(class="btn btn-success") }}
+                        {{ favorite_form.delete(class="btn btn-danger") }}
                     {% else %}
                         <a class="btn btn-success" href="/login">Add To Cart</a>
-                        <a class="btn btn-outline-secondary" href="/login">❤</a>
+                        <a class="btn btn-danger" href="/login">X</a>
                     {% endif %}
                 </div>
             </form>

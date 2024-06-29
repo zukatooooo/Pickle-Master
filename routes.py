@@ -7,11 +7,14 @@ from ext import app, db
 from forms.AddProductForm import AddProductForm
 from forms.CartForm import CartForm
 from forms.CheckoutForm import CheckoutForm
+from forms.DeleteForm import DeleteForm
+from forms.FavoriteForm import FavoriteForm
 from forms.LoginForm import LoginForm
 from forms.ProductForm import ProductForm
 from forms.SearchForm import SearchForm
 from forms.SignupForm import SignupForm
 from models.Cart import Cart
+from models.Favorite import Favorite
 from models.Product import Product
 from models.User import User
 
@@ -30,12 +33,26 @@ def home():
     if current_user.is_authenticated:
         if product_form.validate_on_submit():
             if product_form.addToCart.data:
+
+                existing_cart = Cart.query.filter_by(user_id=current_user.id, product_id=product_form.productId.data).first()
+                if existing_cart:
+                    return redirect(url_for('home'))
+
                 add_to_cart = Cart(user_id=current_user.id, product_id=product_form.productId.data)
                 db.session.add(add_to_cart)
                 db.session.commit()
                 return redirect(url_for('home'))
+
             elif product_form.favorite.data:
-                print("favorite")
+
+                existing_favorite = Favorite.query.filter_by(user_id=current_user.id, product_id=product_form.productId.data).first()
+                if existing_favorite:
+                    return redirect(url_for('home'))
+
+                new_favorite = Favorite(user_id=current_user.id, product_id=product_form.productId.data)
+                db.session.add(new_favorite)
+                db.session.commit()
+
                 return redirect(url_for('home'))
 
     return render_template("home.html", products=products, search_form=search_form, product_form=product_form)
@@ -141,3 +158,52 @@ def checkout():
 def order_confirmation():
     search_form = SearchForm()
     return render_template('order_confirmation.html', search_form=search_form)
+
+
+@app.route('/deleteProduct', methods=['GET', 'POST'])
+@login_required
+def delete():
+
+    products = Product.query.all()
+
+    search_form = SearchForm()
+    delete_form = DeleteForm()
+
+    if delete_form.validate_on_submit():
+        if delete_form.delete.data:
+
+            Product.query.filter_by(id=delete_form.productId.data).delete()
+            db.session.commit()
+
+            return redirect(url_for('delete'))
+    return render_template('delete_product.html', search_form=search_form, favorite_form=delete_form, products=products)
+
+
+@app.route('/favorite', methods=['GET', 'POST'])
+@login_required
+def favorite():
+    products = db.session.query(Product).join(Favorite).filter(Favorite.user_id == current_user.id).all()
+
+    search_form = SearchForm()
+    favorite_form = FavoriteForm()
+
+    if favorite_form.validate_on_submit():
+        if favorite_form.addToCart.data:
+
+            existing_cart = Cart.query.filter_by(user_id=current_user.id, product_id=favorite_form.productId.data).first()
+            if existing_cart:
+                return redirect(url_for('favorite'))
+
+            add_to_cart = Cart(user_id=current_user.id, product_id=favorite_form.productId.data)
+            db.session.add(add_to_cart)
+            db.session.commit()
+            return redirect(url_for('favorite'))
+
+        elif favorite_form.delete.data:
+
+            Favorite.query.filter_by(user_id=current_user.id, product_id=favorite_form.productId.data).delete()
+            db.session.commit()
+
+            return redirect(url_for('favorite'))
+
+    return render_template('favorite.html', search_form=search_form, products=products, favorite_form=favorite_form)

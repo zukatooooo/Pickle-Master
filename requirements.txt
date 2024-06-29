@@ -4,3 +4,5 @@ Flask-SQLAlchemy
 Flask-Login
 email_validator
 gunicorn
+wtforms
+werkzeug
