@@ -207,3 +207,9 @@ def favorite():
             return redirect(url_for('favorite'))
 
     return render_template('favorite.html', search_form=search_form, products=products, favorite_form=favorite_form)
+
+
+@app.route('/about')
+def about():
+    search_form = SearchForm()
+    return render_template('about.html', search_form=search_form)

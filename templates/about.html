@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}
+About - Pickle Master
+{% endblock %}
+
+{% block body %}
+<style>
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    img {
+        margin-top: 10px;
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+
+<div class="content">
+    <a href="https://www.tbceducation.ge">
+        <img src="static/images/TBC_logo.png" alt="About Us Image">
+    </a>
+    <p>&copy; 2024 Pickle Master. All rights reserved.</p>
+    <p>ეს საიტი არის შექმნილი, როგორც ფინალური პროექტი (თიბისის ტექსკოლა x ჯეოლაბი). ამ სააიტზე არსებული პროდუქცია არ არის ნამდვილი.</p>
+    <img src="https://static.wixstatic.com/media/8265b2_4c8a424c6e8b46dbab498a83c48425c3~mv2.png/v1/fill/w_980,h_299,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/web-cover985x300.png">
+</div>
+{% endblock %}
