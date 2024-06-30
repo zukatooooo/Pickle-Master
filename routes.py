@@ -7,6 +7,7 @@ from ext import app, db
 from forms.AddProductForm import AddProductForm
 from forms.CartForm import CartForm
 from forms.CheckoutForm import CheckoutForm
+from forms.ContactForm import ContactForm
 from forms.DeleteForm import DeleteForm
 from forms.FavoriteForm import FavoriteForm
 from forms.LoginForm import LoginForm
@@ -213,3 +214,12 @@ def favorite():
 def about():
     search_form = SearchForm()
     return render_template('about.html', search_form=search_form)
+
+
+@app.route("/contact", methods=["GET", "POST"])
+def contact():
+    search_form = SearchForm()
+    contact_form = ContactForm()
+    if contact_form.validate_on_submit():
+        return redirect("/")
+    return render_template("contact.html", contact_form=contact_form, search_form=search_form)
